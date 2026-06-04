@@ -4,6 +4,7 @@
 #include "UIElement.h"
 #include "TextElement.h"
 #include "Button.h"
+#include "Gameloop.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -16,6 +17,7 @@ int main() {
  
   Object::initShader();
   TextElement::initShader();
+  Gameloop::init();
 
   Window::mainLoop();
   Sound::unInit();

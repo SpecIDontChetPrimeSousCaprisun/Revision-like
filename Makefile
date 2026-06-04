@@ -1,4 +1,4 @@
-PROJECT_NAME = test-project
+PROJECT_NAME = revision-like
 ITCHIO_USER = puroprimesouscaprisun
 
 # CXX
@@ -58,6 +58,8 @@ COMMON_SRC = \
 	src/Container.cpp \
 	src/Button.cpp \
 	src/Particle.cpp \
+	src/Gameloop.cpp \
+	src/FightPhase.cpp \
 	src/UIParticle.cpp
 
 SRC = $(COMMON_SRC) src/glad.c
@@ -125,7 +127,9 @@ publish: clean
 	# Zip builds
 	cd publish && \
 	zip -r -9 linux.zip linux && \
-	zip -r -9 windows.zip windows && 
+	zip -r -9 windows.zip windows && \
+	butler push linux.zip $(ITCHIO_USER)/$(PROJECT_NAME):linux && \
+	butler push windows.zip $(ITCHIO_USER)/$(PROJECT_NAME):windows
 
 .PHONY: all clean test windows publish
 

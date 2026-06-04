@@ -3,6 +3,7 @@
 #include "UIElement.h"
 #include "Button.h"
 #include "Container.h"
+#include "Gameloop.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -115,7 +116,8 @@ void Window::updateFrame() {
 
   glClear(GL_COLOR_BUFFER_BIT);
 
-  Object::registerAll();  
+  Object::registerAll();
+  Gameloop::stepFoward();
   Object::updateAll();
   Object::drawAll();
 
@@ -177,6 +179,12 @@ void Window::mainLoop() {
   englishButton->anchorPoint = glm::vec2(0.5f, 0.0f);
   geographyButton->anchorPoint = glm::vec2(0.5f, 0.0f);
   backButton->anchorPoint = glm::vec2(0.5f, 0.0f);
+
+  frenchButton->setCallback([subjectButtonsContainer, title]() {
+    Gameloop::looping = true;
+    subjectButtonsContainer->changeVisibility(false);
+    title->visible = false;
+  });
 
   subjectButtonsContainer->registerObjects();
   subjectButtonsContainer->changeVisibility(false);

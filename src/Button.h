@@ -13,7 +13,8 @@ public:
   void setCallback(std::function<void()> callback);
 protected:
   drawInfo* beforeDrawing(drawInfo* info) override;
+  void beforeUpdate() override;
 private:
   std::function<void()> callback;
-  bool pressed;
+  bool pressed, ignoreCurrentInput;
 };
