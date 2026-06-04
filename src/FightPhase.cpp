@@ -3,10 +3,13 @@
 #include "Button.h"
 #include "FrenchRandom.h"
 #include "Gameloop.h"
+#include "Window.h"
+#include <sstream>
 
 Container* FightPhase::UI;
 TextElement* FightPhase::scoreLabel;
 TextElement* FightPhase::moneyGainLabel;
+Textbox* FightPhase::searchBox;
 
 void FightPhase::init() {
   FrenchRandom::init();
@@ -16,7 +19,13 @@ void FightPhase::init() {
   UIElement* sidePannel = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.25f, 1.0f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2);
   scoreLabel = new TextElement(glm::vec2(0.0f, 0.1f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0/20", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
   moneyGainLabel = new TextElement(glm::vec2(0.0f, 0.2f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
+  searchBox = new Textbox(glm::vec2(0.5f, 0.25f), glm::vec2(0.75f, 0.05f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
 
+  searchBox->anchorPoint = glm::vec2(0.5f, 0.0f);
+  searchBox->visible = false;
+  searchBox->textCentered = false;
+  searchBox->placeholder = "Search...";
+  searchBox->registerObject();
 
   UIElements.push_back(sidePannel);
   UIElements.push_back(scoreLabel);
@@ -31,6 +40,23 @@ void FightPhase::start() {
   UI->changeVisibility(true);
 
   if (Gameloop::currentSubject == "French") {
-    std::cout << FrenchRandom::getRandomSentence() << "\n";
+    float xOffset = 0.0f;
+
+    std::istringstream stream(FrenchRandom::getRandomSentence());
+    std::string word;
+
+    while (stream >> word)  {
+      Button* expressionButton = new Button(glm::vec2(0.265f + (xOffset / Window::fbWidth), 0.375f), glm::vec2(0.25f, 0.035f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, word + " ", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+ 
+      expressionButton->setCallback([]() {
+        searchBox->visible = true;
+      });
+
+      expressionButton->textCentered = false;
+      expressionButton->recalculateTextWidth();
+      xOffset += expressionButton->textWidth;
+      expressionButton->size.x = expressionButton->textWidth / Window::fbWidth;
+      expressionButton->registerObject();
+    }
   }
 }

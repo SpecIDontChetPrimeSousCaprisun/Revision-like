@@ -61,6 +61,7 @@ COMMON_SRC = \
 	src/Gameloop.cpp \
 	src/FightPhase.cpp \
 	src/FrenchRandom.cpp \
+	src/Textbox.cpp \
 	src/UIParticle.cpp
 
 SRC = $(COMMON_SRC) src/glad.c

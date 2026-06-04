@@ -3,6 +3,7 @@
 #include "Sound.h"
 #include "UIElement.h"
 #include "TextElement.h"
+#include "Textbox.h"
 #include "Button.h"
 #include "Gameloop.h"
 
@@ -17,6 +18,7 @@ int main() {
  
   Object::initShader();
   TextElement::initShader();
+  Textbox::init();
   Gameloop::init();
 
   Window::mainLoop();

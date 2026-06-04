@@ -16,6 +16,8 @@ public:
   drawInfo(glm::vec2 position, glm::vec2 size);
 
   glm::vec2 position, size;
+  std::string text;
+  glm::vec3 textColor;
 };
 
 class Object {

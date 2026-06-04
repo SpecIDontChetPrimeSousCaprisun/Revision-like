@@ -35,7 +35,7 @@ drawInfo* Button::beforeDrawing(drawInfo* info) {
 
   glfwGetCursorPos(Window::window, &mouseX, &mouseY);
 
-  drawInfo* newInfo = baseBeforeDrawing(info);
+  drawInfo* newInfo = baseTextBeforeDrawing();
   
   if (mouseX >= newInfo->position.x &&
       mouseX <= newInfo->position.x + newInfo->size.x &&

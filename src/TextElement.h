@@ -12,12 +12,16 @@ public:
 
   static void initShader();
 
+  void recalculateTextWidth();
+
   std::string text;
   Font* font;
   glm::vec3 textColor;
   float textWidth;
   bool textCentered;
 protected:
+  drawInfo* baseTextBeforeDrawing();
+  drawInfo* beforeDrawing(drawInfo* info) override;
   void afterDrawing(drawInfo* info) override;
 private:
   static unsigned int shaderProgram;

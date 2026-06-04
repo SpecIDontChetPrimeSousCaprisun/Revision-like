@@ -2,6 +2,7 @@
 
 #include "Container.h"
 #include "TextElement.h"
+#include "Textbox.h"
 
 class FightPhase {
 public:
@@ -11,5 +12,5 @@ private:
   static Container* UI;
   static TextElement* scoreLabel;
   static TextElement* moneyGainLabel;
-  static TextElement* expressionLabel;
+  static Textbox* searchBox;
 };
