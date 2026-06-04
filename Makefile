@@ -60,6 +60,7 @@ COMMON_SRC = \
 	src/Particle.cpp \
 	src/Gameloop.cpp \
 	src/FightPhase.cpp \
+	src/FrenchRandom.cpp \
 	src/UIParticle.cpp
 
 SRC = $(COMMON_SRC) src/glad.c

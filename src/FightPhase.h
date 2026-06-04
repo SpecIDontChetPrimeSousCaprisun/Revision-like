@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Container.h"
+#include "TextElement.h"
 
 class FightPhase {
 public:
@@ -8,4 +9,7 @@ public:
   static void start();
 private:
   static Container* UI;
+  static TextElement* scoreLabel;
+  static TextElement* moneyGainLabel;
+  static TextElement* expressionLabel;
 };

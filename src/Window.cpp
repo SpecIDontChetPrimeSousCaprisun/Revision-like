@@ -182,6 +182,7 @@ void Window::mainLoop() {
 
   frenchButton->setCallback([subjectButtonsContainer, title]() {
     Gameloop::looping = true;
+    Gameloop::currentSubject = "French";
     subjectButtonsContainer->changeVisibility(false);
     title->visible = false;
   });

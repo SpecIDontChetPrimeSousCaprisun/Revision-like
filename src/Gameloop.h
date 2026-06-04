@@ -10,6 +10,7 @@ public:
 
   static bool looping, completedStage;
   static int currentStage;
+  static std::string currentSubject;
 private:
   static std::map<int, std::string> stages;
 };
