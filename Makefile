@@ -62,13 +62,15 @@ COMMON_SRC = \
 	src/FightPhase.cpp \
 	src/FrenchRandom.cpp \
 	src/Textbox.cpp \
+	src/ScrollingElement.cpp \
 	src/UIParticle.cpp
 
 SRC = $(COMMON_SRC) src/glad.c
 
 PUBLISH_SRC = textures \
 							fonts \
-							shaders
+							shaders \
+							infos
 
 # Object files
 OBJ_DIR = build

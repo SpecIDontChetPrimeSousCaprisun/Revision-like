@@ -118,6 +118,7 @@ void Window::updateFrame() {
 
   Object::registerAll();
   Gameloop::stepFoward();
+  Gameloop::update();
   Object::updateAll();
   Object::drawAll();
 

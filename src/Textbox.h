@@ -12,14 +12,19 @@ public:
 
   static void init();
 
+  void setFocused(bool focused);
+  bool isFocused();
+
   std::string placeholder;
   glm::vec3 placeholderColor;
-  bool focused;
 protected:
   drawInfo* beforeDrawing(drawInfo* info) override;
   void beforeUpdate() override;
 private:
   static std::vector<Textbox*> textboxes;
-  
+ 
+  bool focused, changedFocus, textAnim;
+  float textAnimCd;
+
   void objectInit();
 };

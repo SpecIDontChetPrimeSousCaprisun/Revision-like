@@ -26,3 +26,9 @@ void Gameloop::stepFoward() {
     FightPhase::start();
   }
 }
+
+void Gameloop::update() {
+  if (stages[currentStage] == "Fight") {
+    FightPhase::update();
+  }
+}
