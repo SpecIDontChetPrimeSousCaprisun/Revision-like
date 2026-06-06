@@ -209,7 +209,7 @@ std::string toLower(std::string str) {
 }
 
 void FightPhase::update() {
-  optionsScroll->visible = searchBox->isFocused();
+  optionsScroll->visible = searchBox->isFocused(); 
 
   std::ostringstream pointss;
   std::ostringstream maxPointss;
@@ -293,6 +293,7 @@ void FightPhase::update() {
 
 void FightPhase::end() {
   Gameloop::completedStage = true;
+  Gameloop::money += points - (maxPoints / 2);
   UI->changeVisibility(false);
   endUI->changeVisibility(false);
 

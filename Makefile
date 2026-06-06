@@ -63,6 +63,7 @@ COMMON_SRC = \
 	src/FrenchRandom.cpp \
 	src/Textbox.cpp \
 	src/ScrollingElement.cpp \
+	src/ShopPhase.cpp \
 	src/UIParticle.cpp
 
 SRC = $(COMMON_SRC) src/glad.c

@@ -11,6 +11,7 @@ public:
 
   static bool looping, completedStage;
   static int currentStage;
+  static float money;
   static std::string currentSubject;
   static std::map<int, std::string> stages;
 };
