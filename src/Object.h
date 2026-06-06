@@ -42,6 +42,7 @@ public:
                         );
 
   void registerObject();
+  void pendDelete();
 
   glm::vec2 position, size, linearVelocity;
   float transparency, rotation;

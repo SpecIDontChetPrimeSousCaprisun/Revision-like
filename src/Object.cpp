@@ -505,3 +505,7 @@ Object* Object::raycast(
 
   return nullptr;
 }
+
+void Object::pendDelete() {
+  pendingDelete = true;
+}

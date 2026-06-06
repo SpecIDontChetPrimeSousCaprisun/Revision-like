@@ -7,12 +7,13 @@
 
 class SentenceInfo {
 public:
-  std::vector<std::string> verbs, subjects, CODs;
+  std::map<std::string, std::vector<std::string>> types;
 };
 
 class FrenchRandom {
 public:
   static void init();
+  static void evaluatePoints(std::map<std::string, std::vector<std::string>> answers, std::string sentence);
   static std::string getRandomSentence();
 private:
   static void generateSentences();

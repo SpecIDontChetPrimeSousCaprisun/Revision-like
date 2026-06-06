@@ -123,7 +123,7 @@ void TextElement::initShader() {
 }
 
 TextElement::TextElement(glm::vec2 position, glm::vec2 size, float transparency, std::string texPath, int zIndex, std::string text, std::string fontPath, glm::vec3 textColor)
-  : UIElement(position, size, transparency, texPath, zIndex), text(text), font(Font::getFont(fontPath, size.y * Window::fbHeight)), textColor(textColor), textCentered(true), textWidth(0.0f) {
+  : UIElement(position, size, transparency, texPath, zIndex), text(text), font(Font::getFont(fontPath, size.y * Window::fbHeight)), textColor(textColor), textCentered(true), textWidth(0.0f), textTransparency(0.0f) {
   glGenVertexArrays(1, &VAO);
   glGenBuffers(1, &VBO);
 
@@ -144,7 +144,7 @@ TextElement::TextElement(glm::vec2 position, glm::vec2 size, float transparency,
 }
 
 TextElement::TextElement(glm::vec2 position, glm::vec2 size, float transparency, glm::vec3 color, int zIndex, std::string text, std::string fontPath, glm::vec3 textColor)
-  : UIElement(position, size, transparency, color, zIndex), text(text), font(Font::getFont(fontPath, size.y * Window::fbHeight)), textColor(textColor), textCentered(true), textWidth(0.0f) {
+  : UIElement(position, size, transparency, color, zIndex), text(text), font(Font::getFont(fontPath, size.y * Window::fbHeight)), textColor(textColor), textCentered(true), textWidth(0.0f), textTransparency(0.0f) {
   glGenVertexArrays(1, &VAO);
   glGenBuffers(1, &VBO);
 
@@ -209,6 +209,11 @@ void TextElement::afterDrawing(drawInfo* info) {
   glUniform1i(
       glGetUniformLocation(shaderProgram, "tex"),
       0
+  );
+
+  glUniform1f(
+      glGetUniformLocation(shaderProgram, "transparency"),
+      textTransparency
   );
 
   glBindVertexArray(VAO);

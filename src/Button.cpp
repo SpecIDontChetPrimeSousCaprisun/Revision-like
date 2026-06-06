@@ -20,8 +20,19 @@ void Button::setCallback(std::function<void()> callback) {
 }
 
 void Button::beforeUpdate() {
+  double mouseX;
+  double mouseY;
+
+  glfwGetCursorPos(Window::window, &mouseX, &mouseY);
+
+  drawInfo* newInfo = baseTextBeforeDrawing();
+
   if ((!visible ||
-       ignoreCurrentInput) &&
+       ignoreCurrentInput ||
+       !(mouseX >= newInfo->position.x &&
+         mouseX <= newInfo->position.x + newInfo->size.x &&
+         mouseY >= newInfo->position.y &&
+         mouseY <= newInfo->position.y + newInfo->size.y)) &&
       glfwGetMouseButton(Window::window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
     ignoreCurrentInput = true;
   } else {

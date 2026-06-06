@@ -17,7 +17,7 @@ public:
   std::string text;
   Font* font;
   glm::vec3 textColor;
-  float textWidth;
+  float textWidth, textTransparency;
   bool textCentered;
 protected:
   drawInfo* baseTextBeforeDrawing();
