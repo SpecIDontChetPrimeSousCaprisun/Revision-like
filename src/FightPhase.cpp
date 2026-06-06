@@ -20,8 +20,11 @@ std::map<std::string, std::vector<std::string>> FightPhase::answerNames;
 Button* FightPhase::selectedExpression;
 Button* FightPhase::endTurnButton;
 Container* FightPhase::UI;
+Container* FightPhase::endUI;
 TextElement* FightPhase::scoreLabel;
 TextElement* FightPhase::moneyGainLabel;
+ScrollingElement* FightPhase::endScroll;
+Button* FightPhase::endButton;
 Textbox* FightPhase::searchBox;
 ScrollingElement* FightPhase::optionsScroll;
 std::vector<Button*> FightPhase::optionButtons;
@@ -79,10 +82,41 @@ void FightPhase::init() {
   UI = new Container(UIElements);
   UI->registerObjects();
   UI->changeVisibility(false);
+
+  // End UI
+  std::vector<Object*> endUIElements;
+
+  UIElement* endBackground = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.25f, glm::vec3(0.0f, 0.0f, 0.0f), 20);
+  UIElement* endContainer = new UIElement(glm::vec2(0.5f, 0.5f), glm::vec2(0.75f, 0.9f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 21);
+  TextElement* title = new TextElement(glm::vec2(0.5f, 0.05f), glm::vec2(0.75f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 22, "Fight breakdown", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  endScroll = new ScrollingElement(glm::vec2(0.5f, 0.15f), glm::vec2(0.7f, 0.65f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 22);
+  endButton = new Button(glm::vec2(0.5f, 0.85f), glm::vec2(0.7f, 0.075f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 22, "Continue", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+
+  endContainer->anchorPoint = glm::vec2(0.5f, 0.5f);
+  
+  title->anchorPoint = glm::vec2(0.5f, 0.0f);
+
+  endScroll->anchorPoint = glm::vec2(0.5f, 0.0f);
+
+  endButton->anchorPoint = glm::vec2(0.5f, 0.0f);
+  endButton->setCallback([]() {
+    end();
+  });
+
+  endUIElements.push_back(endBackground);
+  endUIElements.push_back(endContainer);
+  endUIElements.push_back(title);
+  endUIElements.push_back(endScroll);
+  endUIElements.push_back(endButton);
+
+  endUI = new Container(endUIElements);
+  endUI->registerObjects();
+  endUI->changeVisibility(false);
 }
 
 void FightPhase::start() {
   UI->changeVisibility(true);
+  endUI->changeVisibility(false);
   optionButtons.clear();
   expressionButtons.clear();
   answers.clear();
@@ -203,11 +237,14 @@ void FightPhase::update() {
     time -= Window::deltaTime;
     if (time <= 0.0f) {
       effect->element->visible = true;
-      effect->element->textTransparency = time / -0.5f;
+      
+      if (effect->fadeOut) {
+        effect->element->textTransparency = time / -0.5f;
 
-      if (time <= -0.5f) {
-        effect->element->pendDelete();
-        toRemove.push_back(effect);
+        if (time <= -0.5f) {
+          effect->element->pendDelete();
+          toRemove.push_back(effect);
+        }
       }
 
       if (!effect->appliedPoints) {
@@ -221,24 +258,62 @@ void FightPhase::update() {
     effects.erase(effect);
   }
 
-  if (effects.size() == 0 && !endTurnButton->visible && Gameloop::stages[Gameloop::currentStage] == "Fight") {
-    Gameloop::completedStage = true;
-    UI->changeVisibility(false);
+  if (effects.size() == 0 && !endTurnButton->visible && Gameloop::stages[Gameloop::currentStage] == "Fight" && !endScroll->visible) {
+    endUI->changeVisibility(true);
 
-    for (Button* button : expressionButtons) {
-      button->pendDelete();
-    }
+    TextElement* endScore = new TextElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.035f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 23, pointss.str() + "/" + maxPointss.str(), "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+    TextElement* endMoney = new TextElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.035f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 23, moneyss.str() + "$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
+  
+    endScore->visible = false;
+    endScore->textCentered = false;
+    endScore->registerObject();
 
-    for (Button* button : optionButtons) {
-      button->pendDelete();
-    }
+    endMoney->visible = false;
+    endMoney->textCentered = false;
+    endMoney->registerObject();
 
-    for (auto& [key, buttons] : answers) {
-      for (Button* button : buttons) {
-        button->pendDelete();
-      }
-    }
+    endScroll->elements.push_back(endScore);
+    endScroll->elements.push_back(endMoney);
 
-    optionsScroll->elements.clear();
+    Effect* endScoreEffect = new Effect();
+    Effect* endMoneyEffect = new Effect();
+
+    endScoreEffect->points = 0;
+    endScoreEffect->fadeOut = false;
+    endScoreEffect->element = endScore;
+
+    endMoneyEffect->points = 0;
+    endMoneyEffect->fadeOut = false;
+    endMoneyEffect->element = endMoney;
+
+    effects[endScoreEffect] = 1.0f;
+    effects[endMoneyEffect] = 2.0f;
   }
+}
+
+void FightPhase::end() {
+  Gameloop::completedStage = true;
+  UI->changeVisibility(false);
+  endUI->changeVisibility(false);
+
+  for (Button* button : expressionButtons) {
+    button->pendDelete();
+  }
+
+  for (Button* button : optionButtons) {
+    button->pendDelete();
+  }
+
+  for (auto& [key, buttons] : answers) {
+    for (Button* button : buttons) {
+      button->pendDelete();
+    }
+  }
+
+  for (UIElement* element : endScroll->elements) {
+    element->pendDelete();
+  }
+
+  optionsScroll->elements.clear();
+  endScroll->elements.clear();
 }

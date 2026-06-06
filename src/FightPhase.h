@@ -14,12 +14,14 @@ public:
   TextElement* element;
   float points;
   bool appliedPoints = false;
+  bool fadeOut = true;
 };
 
 class FightPhase {
 public:
   static void init();
   static void start();
+  static void end();
   static void update();
 
   static float points, maxPoints;
@@ -33,8 +35,11 @@ private:
   static Button* selectedExpression;
   static Button* endTurnButton;
   static Container* UI;
+  static Container* endUI;
   static TextElement* scoreLabel;
   static TextElement* moneyGainLabel;
+  static ScrollingElement* endScroll;
+  static Button* endButton;
   static Textbox* searchBox;
   static ScrollingElement* optionsScroll;
 };
