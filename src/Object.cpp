@@ -509,3 +509,7 @@ Object* Object::raycast(
 void Object::pendDelete() {
   pendingDelete = true;
 }
+
+bool Object::isDeleted() {
+  return pendingDelete;
+}

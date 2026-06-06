@@ -9,6 +9,7 @@ std::map<int, std::string> Gameloop::stages;
 
 void Gameloop::init() {
   stages[1] = "Fight";
+  stages[2] = "Shop";
 
   FightPhase::init();
 }

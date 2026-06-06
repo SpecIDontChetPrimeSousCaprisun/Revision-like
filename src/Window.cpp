@@ -202,7 +202,7 @@ void Window::mainLoop() {
   });
 
   fpsLabel = new TextElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.25f, 0.1f), 1.0f, "textures/Wallpaper.jpeg", 2, "FPS : 0", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
-  fpsLabel->registerObject();
+  //fpsLabel->registerObject();
 
   while (!glfwWindowShouldClose(window) && inGame){
     updateFrame();

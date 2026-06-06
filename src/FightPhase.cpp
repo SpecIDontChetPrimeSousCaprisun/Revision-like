@@ -33,8 +33,8 @@ void FightPhase::init() {
 
   UIElement* sidePannel = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.25f, 1.0f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2);
   endTurnButton = new Button(glm::vec2(0.125f, 0.88f), glm::vec2(0.225f, 0.075f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 3, "End turn", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  scoreLabel = new TextElement(glm::vec2(0.0f, 0.1f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0/20", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  moneyGainLabel = new TextElement(glm::vec2(0.0f, 0.2f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
+  scoreLabel = new TextElement(glm::vec2(0.0f, 0.01f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0/20", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  moneyGainLabel = new TextElement(glm::vec2(0.0f, 0.06f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
   searchBox = new Textbox(glm::vec2(0.5f, 0.25f), glm::vec2(0.75f, 0.05f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
   optionsScroll = new ScrollingElement(glm::vec2(0.5f, 0.3f), glm::vec2(0.75f, 0.2f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10);
 
@@ -51,9 +51,23 @@ void FightPhase::init() {
   endTurnButton->setCallback([endTurnButton]() {
     endTurnButton->visible = false;
 
+    for (Button* button : expressionButtons) {
+      button->interactible = false;
+    }
+
+    for (Button* button : optionButtons) {
+      button->interactible = false;
+    }
+
+    for (auto& [key, buttons] : answers) {
+      for (Button* button : buttons) {
+        button->interactible = false;
+      }
+    }
+
     if (Gameloop::currentSubject == "French") {
       FrenchRandom::evaluatePoints(answerNames, expression);
-    } 
+    }
   });
   endTurnButton->anchorPoint = glm::vec2(0.5f, 0.0f);
 
@@ -71,6 +85,8 @@ void FightPhase::start() {
   UI->changeVisibility(true);
   optionButtons.clear();
   expressionButtons.clear();
+  answers.clear();
+  answerNames.clear();
 
   std::ifstream optionsFile("infos/" + Gameloop::currentSubject + "Options.json");
   
@@ -163,9 +179,13 @@ void FightPhase::update() {
 
   std::ostringstream pointss;
   std::ostringstream maxPointss;
+  std::ostringstream moneyss;
   pointss << std::fixed << std::setprecision(1) << points;
   maxPointss << std::fixed << std::setprecision(1) << maxPoints;
+  moneyss << std::fixed << std::setprecision(1) << std::max(0.0f, points - (maxPoints / 2));
+
   scoreLabel->text = pointss.str() + "/" + maxPointss.str();
+  moneyGainLabel->text = moneyss.str() + "$";
 
   if (!searchBox->text.empty()) {
     for (Button* button : optionButtons) {
@@ -177,16 +197,48 @@ void FightPhase::update() {
     }
   }
 
+  std::vector<Effect*> toRemove;
+
   for (auto& [effect, time] : effects) {
     time -= Window::deltaTime;
     if (time <= 0.0f) {
       effect->element->visible = true;
       effect->element->textTransparency = time / -0.5f;
 
+      if (time <= -0.5f) {
+        effect->element->pendDelete();
+        toRemove.push_back(effect);
+      }
+
       if (!effect->appliedPoints) {
         effect->appliedPoints = true;
         points = std::min(points + effect->points, maxPoints);
       }
     }
+  }
+
+  for (Effect* effect : toRemove) {
+    effects.erase(effect);
+  }
+
+  if (effects.size() == 0 && !endTurnButton->visible && Gameloop::stages[Gameloop::currentStage] == "Fight") {
+    Gameloop::completedStage = true;
+    UI->changeVisibility(false);
+
+    for (Button* button : expressionButtons) {
+      button->pendDelete();
+    }
+
+    for (Button* button : optionButtons) {
+      button->pendDelete();
+    }
+
+    for (auto& [key, buttons] : answers) {
+      for (Button* button : buttons) {
+        button->pendDelete();
+      }
+    }
+
+    optionsScroll->elements.clear();
   }
 }

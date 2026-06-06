@@ -11,6 +11,8 @@ public:
          std::string text, std::string fontPath, glm::vec3 textColor);
 
   void setCallback(std::function<void()> callback);
+
+  bool interactible;
 protected:
   drawInfo* beforeDrawing(drawInfo* info) override;
   void beforeUpdate() override;
