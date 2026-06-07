@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 class Gameloop {
 public:
@@ -14,4 +15,5 @@ public:
   static float money;
   static std::string currentSubject;
   static std::map<int, std::string> stages;
+  static std::vector<std::string> upgrades;
 };

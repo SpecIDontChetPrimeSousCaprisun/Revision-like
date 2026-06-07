@@ -1,0 +1,14 @@
+{
+  "Propositions": {
+    "price": 15,
+    "texPath": "textures/Wallpaper.jpeg"
+  },
+  "Complements Circonstantiels (CC)": {
+    "price": 5,
+    "texPath": "textures/Wallpaper.jpeg"
+  },
+  "Natures": {
+    "price": 10,
+    "texPath": "textures/Wallpaper.jpeg"
+  }
+}

@@ -1,5 +1,6 @@
 #include "FrenchRandom.h"
 #include "FightPhase.h"
+#include "Gameloop.h"
 #include <algorithm>
 #include <iostream>
 #include <cmath>
@@ -17,6 +18,21 @@ std::string FrenchRandom::getRandomSentence() {
 }
 
 std::vector<UpgradeInfo*> FrenchRandom::getRandomUpgrades() {
+  std::vector<UpgradeInfo*> toRemove;
+
+  for (UpgradeInfo* upgrade : upgradePool) {
+    if (std::find(Gameloop::upgrades.begin(), Gameloop::upgrades.end(), upgrade->upgrade) != Gameloop::upgrades.end()) {
+      toRemove.push_back(upgrade);
+    }
+  }
+
+  for (UpgradeInfo* upgrade : toRemove) {
+    upgradePool.erase(
+      std::remove(upgradePool.begin(), upgradePool.end(), upgrade),
+      upgradePool.end()
+    );
+  }
+
   std::vector<UpgradeInfo*> currentPool = upgradePool;
   std::vector<UpgradeInfo*> result;
 

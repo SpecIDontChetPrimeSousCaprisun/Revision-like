@@ -1,14 +1,37 @@
 {
   "Verbe": {
     "color": [1, 0, 0],
-    "abreviation": "V"
+    "abreviation": "V",
+    "requirements": []
   },
   "Sujet": {
     "color": [0, 0.5, 1],
-    "abreviation": "S"
+    "abreviation": "S",
+    "requirements": []
   },
   "COD": {
     "color": [0, 1, 0],
-    "abreviation": "COD"
+    "abreviation": "COD",
+    "requirements": []
+  },
+  "CCTemps": {
+    "color": [0.75, 0.25, 0],
+    "abreviation": "CCT",
+    "requirements": ["Complements Circonstantiels (CC)"]
+  },
+  "CCManiere": {
+    "color": [0.75, 0.25, 0],
+    "abreviation": "CCMa",
+    "requirements": ["Complements Circonstantiels (CC)"]
+  },
+  "CCLieu": {
+    "color": [0.75, 0.25, 0],
+    "abreviation": "CCL",
+    "requirements": ["Complements Circonstantiels (CC)"]
+  },
+  "CCMoyen": {
+    "color": [0.75, 0.25, 0],
+    "abreviation": "CCMo",
+    "requirements": ["Complements Circonstantiels (CC)"]
   }
 }

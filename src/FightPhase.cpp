@@ -121,6 +121,7 @@ void FightPhase::start() {
   expressionButtons.clear();
   answers.clear();
   answerNames.clear();
+  effects.clear();
 
   std::ifstream optionsFile("infos/" + Gameloop::currentSubject + "Options.json");
   
@@ -128,6 +129,17 @@ void FightPhase::start() {
   optionsFile >> options;
 
   for (auto& [key, value] : options.items()) {
+    bool requirementsNotMet = false;
+
+    for (const auto& requirement : value["requirements"]) {
+      if (std::find(Gameloop::upgrades.begin(), Gameloop::upgrades.end(), requirement) == Gameloop::upgrades.end()) {
+        requirementsNotMet = true;
+        break;
+      }
+    }
+
+    if (requirementsNotMet) continue;
+
     Button* optionButton = new Button(glm::vec2(0.265f, 0.375f), glm::vec2(0.25f, 0.025f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 11, key, "fonts/Kenney Future Narrow.ttf", glm::vec3(value["color"][0], value["color"][1], value["color"][2]));
 
     optionButton->setCallback([key, value]() {
@@ -293,7 +305,7 @@ void FightPhase::update() {
 
 void FightPhase::end() {
   Gameloop::completedStage = true;
-  Gameloop::money += points - (maxPoints / 2);
+  Gameloop::money = std::max(Gameloop::money + (points - (maxPoints / 2)), Gameloop::money);
   UI->changeVisibility(false);
   endUI->changeVisibility(false);
   searchBox->visible = false;

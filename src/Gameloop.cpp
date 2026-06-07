@@ -8,6 +8,7 @@ int Gameloop::currentStage = 0;
 float Gameloop::money = 0.0f;
 std::string Gameloop::currentSubject = "";
 std::map<int, std::string> Gameloop::stages;
+std::vector<std::string> Gameloop::upgrades;
 
 void Gameloop::init() {
   stages[1] = "Fight";
@@ -24,7 +25,7 @@ void Gameloop::stepFoward() {
   completedStage = false;
   currentStage++;
   
-  if (currentStage > stages.size()) currentStage = 1;
+  if (currentStage > stages.size() - 1) currentStage = 1;
 
   if (stages[currentStage] == "Fight") {
     FightPhase::start();
