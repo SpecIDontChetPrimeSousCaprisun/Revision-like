@@ -117,6 +117,7 @@ void Window::updateFrame() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   Object::registerAll();
+  Container::deletePendingObjects();
   Gameloop::stepFoward();
   Gameloop::update();
   Object::updateAll();

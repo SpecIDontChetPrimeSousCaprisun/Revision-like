@@ -315,3 +315,7 @@ void TextElement::recalculateTextWidth() {
   
   textWidth = x - startX;
 }
+
+void TextElement::reloadFont(std::string fontPath) {
+  font = Font::getFont(fontPath, size.y * Window::fbHeight);
+}

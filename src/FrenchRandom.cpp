@@ -3,8 +3,11 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 std::mt19937 FrenchRandom::rng(std::random_device{}());
+std::vector<UpgradeInfo*> FrenchRandom::upgradePool;
 std::vector<std::string> FrenchRandom::sentencesPool;
 std::map<std::string, SentenceInfo*> FrenchRandom::sentencesInfo;
 
@@ -13,9 +16,25 @@ std::string FrenchRandom::getRandomSentence() {
   return sentencesPool[dist(rng)];
 }
 
+std::vector<UpgradeInfo*> FrenchRandom::getRandomUpgrades() {
+  std::vector<UpgradeInfo*> currentPool = upgradePool;
+  std::vector<UpgradeInfo*> result;
+
+  for (int i = 0; i < 3; i++) {
+    std::uniform_int_distribution<int> dist(0, currentPool.size() - 1);
+    int index = dist(rng);
+
+    result.push_back(currentPool[index]);
+    currentPool.erase(currentPool.begin() + index);
+  }
+
+  return result;
+}
+
 void FrenchRandom::init() {
   generateSentences();
   createPool();
+  createUpgradePool();
 }
 
 void FrenchRandom::createPool() {
@@ -23,6 +42,23 @@ void FrenchRandom::createPool() {
 
   for (auto& [sentence, info] : sentencesInfo) {
     sentencesPool.push_back(sentence);
+  }
+}
+
+void FrenchRandom::createUpgradePool() {
+  std::ifstream upgradesFile("infos/FrenchUpgrades.json");
+
+  nlohmann::json upgrades;
+  upgradesFile >> upgrades;
+
+  for (auto& [key, value] : upgrades.items()) {
+    UpgradeInfo* infos = new UpgradeInfo();
+
+    infos->upgrade = key;
+    infos->price = value["price"];
+    infos->texPath = value["texPath"];
+
+    upgradePool.push_back(infos);
   }
 }
 

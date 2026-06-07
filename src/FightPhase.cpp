@@ -296,6 +296,7 @@ void FightPhase::end() {
   Gameloop::money += points - (maxPoints / 2);
   UI->changeVisibility(false);
   endUI->changeVisibility(false);
+  searchBox->visible = false;
 
   for (Button* button : expressionButtons) {
     button->pendDelete();

@@ -13,6 +13,7 @@ public:
   static void initShader();
 
   void recalculateTextWidth();
+  void reloadFont(std::string fontPath);
 
   std::string text;
   Font* font;
