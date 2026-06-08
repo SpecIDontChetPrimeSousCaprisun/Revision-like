@@ -216,6 +216,22 @@ void TextElement::afterDrawing(drawInfo* info) {
       textTransparency
   );
 
+  glUniform1f(
+    glGetUniformLocation(shaderProgram, "rotation"),
+    rotation
+  );
+
+  glm::vec2 pivot(
+    info->position.x + info->size.x * 0.5f,
+    info->position.y + info->size.y * 0.5f
+  );
+
+  glUniform2f(
+    glGetUniformLocation(shaderProgram, "pivot"),
+    pivot.x,
+    pivot.y
+  );
+
   glBindVertexArray(VAO);
 
   float startX = info->position.x;
