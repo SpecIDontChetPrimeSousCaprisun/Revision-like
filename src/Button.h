@@ -11,6 +11,7 @@ public:
          std::string text, std::string fontPath, glm::vec3 textColor);
 
   void setCallback(std::function<void()> callback);
+  void setHoverCallback(std::function<void(bool hovered)> callback);
 
   bool interactible;
 protected:
@@ -18,5 +19,6 @@ protected:
   void beforeUpdate() override;
 private:
   std::function<void()> callback;
-  bool pressed, ignoreCurrentInput;
+  std::function<void(bool hovered)> hoveredCallback;
+  bool pressed, ignoreCurrentInput, wasHovered;
 };

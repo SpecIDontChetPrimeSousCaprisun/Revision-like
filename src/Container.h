@@ -10,6 +10,7 @@ public:
   static void deletePendingObjects();
 
   void changeVisibility(bool visible);
+  void changeCornerRadius(float radius);
   void registerObjects();
   void clear();
   void pendDelete();

@@ -46,7 +46,7 @@ public:
   bool isDeleted();
 
   glm::vec2 position, size, linearVelocity;
-  float transparency, rotation;
+  float transparency, rotation, cornerRadius;
   bool visible, anchored, canCollide;
   int zIndex;
 protected:

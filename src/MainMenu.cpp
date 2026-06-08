@@ -2,6 +2,7 @@
 #include "Button.h"
 #include "Gameloop.h"
 #include "Window.h"
+#include <cmath>
 
 float MainMenu::titleSpeed = 2.0f;
 TextElement* MainMenu::title;
@@ -16,10 +17,34 @@ void MainMenu::init() {
 
   UIElement* background = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 0);
   title = new TextElement(glm::vec2(0.5f, 0.05f), glm::vec2(1.0f, 0.15f), 1.0f, "textures/Wallpaper.jpeg", 1, "Revision like", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
-  Button* reviseButton = new Button(glm::vec2(0.5f, 0.45f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 1, "Reviser", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
-  Button* continueButton = new Button(glm::vec2(0.5f, 0.575f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 1, "Continuer", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
-  Button* creditsButton = new Button(glm::vec2(0.5f, 0.7f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 1, "Credits", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
-  Button* quitButton = new Button(glm::vec2(0.5f, 0.825f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 1, "Quitter", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 0.0f, 0.0f));
+  Button* reviseButton = new Button(glm::vec2(0.5f, 0.45f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2, "Reviser", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* reviseButtonBackground = new UIElement(glm::vec2(0.5f, 0.445f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
+  Button* continueButton = new Button(glm::vec2(0.5f, 0.575f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2, "Continuer", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* continueButtonBackground = new UIElement(glm::vec2(0.5f, 0.57f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
+  Button* creditsButton = new Button(glm::vec2(0.5f, 0.7f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2, "Credits", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* creditsButtonBackground = new UIElement(glm::vec2(0.5f, 0.695f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
+  Button* quitButton = new Button(glm::vec2(0.5f, 0.825f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2, "Quitter", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 0.0f, 0.0f));
+  UIElement* quitButtonBackground = new UIElement(glm::vec2(0.5f, 0.82f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
+
+  reviseButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  reviseButtonBackground->visible = false;
+  reviseButtonBackground->cornerRadius = 0.025f;
+  reviseButtonBackground->registerObject();
+
+  continueButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  continueButtonBackground->visible = false;
+  continueButtonBackground->cornerRadius = 0.025f;
+  continueButtonBackground->registerObject();
+
+  creditsButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  creditsButtonBackground->visible = false;
+  creditsButtonBackground->cornerRadius = 0.025f;
+  creditsButtonBackground->registerObject();
+
+  quitButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  quitButtonBackground->visible = false;
+  quitButtonBackground->cornerRadius = 0.025f;
+  quitButtonBackground->registerObject();
 
   mainButtons.push_back(reviseButton);
   mainButtons.push_back(continueButton);
@@ -40,6 +65,7 @@ void MainMenu::init() {
 
   background->registerObject();
   title->registerObject();
+  mainButtonsContainer->changeCornerRadius(0.025f);
   mainButtonsContainer->registerObjects(); 
 
   // Subject menu
@@ -72,6 +98,7 @@ void MainMenu::init() {
   });
 
   subjectButtonsContainer->registerObjects();
+  subjectButtonsContainer->changeCornerRadius(0.025f);
   subjectButtonsContainer->changeVisibility(false);
 
   backButton->setCallback([mainButtonsContainer, subjectButtonsContainer]() {
@@ -83,12 +110,30 @@ void MainMenu::init() {
     mainButtonsContainer->changeVisibility(false);
     subjectButtonsContainer->changeVisibility(true);
   });
+
+  reviseButton->setHoverCallback([reviseButtonBackground](bool hovered) {
+    reviseButtonBackground->visible = hovered;
+  });
+
+  continueButton->setHoverCallback([continueButtonBackground](bool hovered) {
+    continueButtonBackground->visible = hovered;
+  });
+
+  creditsButton->setHoverCallback([creditsButtonBackground](bool hovered) {
+    creditsButtonBackground->visible = hovered;
+  });
+
+  quitButton->setHoverCallback([quitButtonBackground](bool hovered) {
+    quitButtonBackground->visible = hovered;
+  });
 }
 
 void MainMenu::update() {
   title->rotation += Window::deltaTime * titleSpeed;
 
-  if (title->rotation >= 2.5f || title->rotation <= -2.5f) {
-    titleSpeed = -titleSpeed;
+  if (title->rotation >= 2.5f) {
+    titleSpeed = -std::abs(titleSpeed);
+  } else if (title->rotation <= -2.5f) {
+    titleSpeed = std::abs(titleSpeed);
   }
 }

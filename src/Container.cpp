@@ -24,6 +24,12 @@ void Container::changeVisibility(bool visible) {
   }
 }
 
+void Container::changeCornerRadius(float radius) {
+  for (Object* object : objects) {
+    object->cornerRadius = radius;
+  }
+}
+
 void Container::registerObjects() {
   for (Object* object : objects) {
     object->registerObject();
