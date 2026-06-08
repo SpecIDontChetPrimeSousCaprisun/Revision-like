@@ -306,6 +306,7 @@ void FightPhase::update() {
 void FightPhase::end() {
   Gameloop::completedStage = true;
   Gameloop::money = std::max(Gameloop::money + (points - (maxPoints / 2)), Gameloop::money);
+  points = 0.0f;
   UI->changeVisibility(false);
   endUI->changeVisibility(false);
   searchBox->visible = false;

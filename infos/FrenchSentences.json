@@ -1,0 +1,32 @@
+{
+  "Les chevres mangent l'herbe.": {
+    "types": {
+      "Verbe": [
+        "mangent"
+      ],
+      "Sujet": [
+        "chevres"
+      ],
+      "COD": [
+        "l'herbe."
+      ]
+    },
+    "requirements": []
+  },
+  "Je mange au restaurant": {
+    "types": {
+      "Verbe": [
+        "mange"
+      ],
+      "Sujet": [
+        "Je"
+      ],
+      "CCLieu": [
+        "restaurant"
+      ]
+    },
+    "requirements": [
+      "Complements Circonstantiels (CC)"
+    ]
+  }
+}

@@ -13,6 +13,8 @@ std::vector<std::string> FrenchRandom::sentencesPool;
 std::map<std::string, SentenceInfo*> FrenchRandom::sentencesInfo;
 
 std::string FrenchRandom::getRandomSentence() {
+  createPool();
+
   std::uniform_int_distribution<int> dist(0, sentencesPool.size() - 1);
   return sentencesPool[dist(rng)];
 }
@@ -37,6 +39,8 @@ std::vector<UpgradeInfo*> FrenchRandom::getRandomUpgrades() {
   std::vector<UpgradeInfo*> result;
 
   for (int i = 0; i < 3; i++) {
+    if (currentPool.empty()) break;
+
     std::uniform_int_distribution<int> dist(0, currentPool.size() - 1);
     int index = dist(rng);
 
@@ -48,8 +52,7 @@ std::vector<UpgradeInfo*> FrenchRandom::getRandomUpgrades() {
 }
 
 void FrenchRandom::init() {
-  generateSentences();
-  createPool();
+  generateSentences(); 
   createUpgradePool();
 }
 
@@ -57,6 +60,17 @@ void FrenchRandom::createPool() {
   sentencesPool.clear();
 
   for (auto& [sentence, info] : sentencesInfo) {
+    bool requirementsMet = true;
+
+    for (std::string requirement : info->requirements) {
+      if (std::find(Gameloop::upgrades.begin(), Gameloop::upgrades.end(), requirement) == Gameloop::upgrades.end()) {
+        requirementsMet = false;
+        break;
+      }
+    }
+
+    if (!requirementsMet) continue;
+
     sentencesPool.push_back(sentence);
   }
 }
@@ -79,13 +93,26 @@ void FrenchRandom::createUpgradePool() {
 }
 
 void FrenchRandom::generateSentences() {
-  SentenceInfo* newInfo = new SentenceInfo();
+  std::ifstream sentencesFile("infos/FrenchSentences.json");
 
-  newInfo->types["Verbe"].push_back("mangent");
-  newInfo->types["Sujet"].push_back("chevres");
-  newInfo->types["COD"].push_back("l'herbe.");
+  nlohmann::json sentences;
+  sentencesFile >> sentences;
 
-  sentencesInfo["Les chevres mangent l'herbe."] = newInfo;
+  for (auto& [sentence, info] : sentences.items()) {
+    SentenceInfo* newInfo = new SentenceInfo();
+
+    for (auto& [type, values] : info["types"].items()) {
+      for (auto& value : values) {
+        newInfo->types[type].push_back(value);
+      }
+    }
+
+    for (auto& requirement : info["requirements"]) {
+      newInfo->requirements.push_back(requirement);
+    }
+
+    sentencesInfo[sentence] = newInfo;
+  }
 }
 
 void FrenchRandom::evaluatePoints(std::map<std::string, std::vector<std::string>> answers, std::string sentence) {
