@@ -18,7 +18,7 @@ void ShopPhase::init() {
   TextElement* title = new TextElement(glm::vec2(0.5f, 0.05f), glm::vec2(0.75f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "SHOP", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
   UIElement* expressionsContainer = new UIElement(glm::vec2(0.5f, 0.15f), glm::vec2(0.7f, 0.2f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 3);
   moneyText = new TextElement(glm::vec2(0.01f, 1.0f), glm::vec2(1.0f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 2, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
-  Button* endButton = new Button(glm::vec2(1.0f, 1.0f), glm::vec2(0.15f, 0.085f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 2, "Continue", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  Button* endButton = new Button(glm::vec2(0.5f, 0.94f), glm::vec2(0.7f, 0.05f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 2, "Continue", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
 
   background->anchorPoint = glm::vec2(0.5f, 0.5f);
 
@@ -29,7 +29,7 @@ void ShopPhase::init() {
   moneyText->anchorPoint = glm::vec2(0.0f, 1.0f);
   moneyText->textCentered = false;
 
-  endButton->anchorPoint = glm::vec2(1.0f, 1.0f);
+  endButton->anchorPoint = glm::vec2(0.5f, 1.0f);
   endButton->setCallback([]() {
     end();
   });
@@ -42,6 +42,7 @@ void ShopPhase::init() {
 
   UI = new Container(UIElements);
   UI->changeVisibility(false);
+  UI->changeCornerRadius(0.025f);
   UI->registerObjects();
 }
 
@@ -77,6 +78,7 @@ void ShopPhase::start() {
       upgradeTitle->recalculateTextWidth();
     }
 
+    upgradeButton->cornerRadius = 0.025f;
     upgradeButton->setCallback([upgrade, upgradeButton, boughtElement]() {
       if (upgrade->price > Gameloop::money) return;
 

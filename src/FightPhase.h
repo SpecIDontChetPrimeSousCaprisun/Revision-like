@@ -12,9 +12,13 @@
 class Effect {
 public:
   TextElement* element;
-  float points;
+  Button* correspondingButton;
+  std::string afterCountText;
+  float points, count;
   bool appliedPoints = false;
   bool fadeOut = true;
+  bool countUp = false;
+  bool showLooseScreen = false;
 };
 
 class FightPhase {
@@ -36,10 +40,12 @@ private:
   static Button* endTurnButton;
   static Container* UI;
   static Container* endUI;
+  static Container* lostUI;
   static TextElement* scoreLabel;
   static TextElement* moneyGainLabel;
   static ScrollingElement* endScroll;
   static Button* endButton;
   static Textbox* searchBox;
   static ScrollingElement* optionsScroll;
+  static UIElement* searchScrollBackgound;
 };

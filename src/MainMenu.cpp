@@ -68,13 +68,64 @@ void MainMenu::init() {
   mainButtonsContainer->changeCornerRadius(0.025f);
   mainButtonsContainer->registerObjects(); 
 
+  reviseButton->setCallback([mainButtonsContainer, subjectButtonsContainer]() {
+    mainButtonsContainer->changeVisibility(false);
+    subjectButtonsContainer->changeVisibility(true);
+  });
+
+  reviseButton->setHoverCallback([reviseButtonBackground](bool hovered) {
+    reviseButtonBackground->visible = hovered;
+  });
+
+  continueButton->setHoverCallback([continueButtonBackground](bool hovered) {
+    continueButtonBackground->visible = hovered;
+  });
+
+  creditsButton->setHoverCallback([creditsButtonBackground](bool hovered) {
+    creditsButtonBackground->visible = hovered;
+  });
+
+  quitButton->setHoverCallback([quitButtonBackground](bool hovered) {
+    quitButtonBackground->visible = hovered;
+  });
+
   // Subject menu
 
   Button* frenchButton = new Button(glm::vec2(0.5f, 0.35f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 1, "Francais", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* frenchButtonBackground = new UIElement(glm::vec2(0.5f, 0.345f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
   Button* mathButton = new Button(glm::vec2(0.5f, 0.475f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.15f), 1, "Maths", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* mathButtonBackground = new UIElement(glm::vec2(0.5f, 0.47f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
   Button* englishButton = new Button(glm::vec2(0.5f, 0.6f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.3f, 0.0f), 1, "Anglais", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* englishButtonBackground = new UIElement(glm::vec2(0.5f, 0.595f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
   Button* geographyButton = new Button(glm::vec2(0.5f, 0.725f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.0f), 1, "Histoire / Geo / EMC", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* geographyButtonBackground = new UIElement(glm::vec2(0.5f, 0.72f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
   Button* backButton = new Button(glm::vec2(0.5f, 0.85f), glm::vec2(0.5f, 0.1f), 0.0f, glm::vec3(0.3f, 0.0f, 0.0f), 1, "Retour", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 0.0f, 0.0f));
+  UIElement* backButtonBackground = new UIElement(glm::vec2(0.5f, 0.845f), glm::vec2(0.51f, 0.11f), 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), 1);
+
+  frenchButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  frenchButtonBackground->visible = false;
+  frenchButtonBackground->cornerRadius = 0.025f;
+  frenchButtonBackground->registerObject();
+
+  mathButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  mathButtonBackground->visible = false;
+  mathButtonBackground->cornerRadius = 0.025f;
+  mathButtonBackground->registerObject();
+
+  englishButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  englishButtonBackground->visible = false;
+  englishButtonBackground->cornerRadius = 0.025f;
+  englishButtonBackground->registerObject();
+
+  geographyButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  geographyButtonBackground->visible = false;
+  geographyButtonBackground->cornerRadius = 0.025f;
+  geographyButtonBackground->registerObject();
+
+  backButtonBackground->anchorPoint = glm::vec2(0.5f, 0.0f);
+  backButtonBackground->visible = false;
+  backButtonBackground->cornerRadius = 0.025f;
+  backButtonBackground->registerObject();
 
   subjectButtons.push_back(frenchButton);
   subjectButtons.push_back(mathButton);
@@ -106,25 +157,24 @@ void MainMenu::init() {
     mainButtonsContainer->changeVisibility(true);
   });
 
-  reviseButton->setCallback([mainButtonsContainer, subjectButtonsContainer]() {
-    mainButtonsContainer->changeVisibility(false);
-    subjectButtonsContainer->changeVisibility(true);
+  frenchButton->setHoverCallback([frenchButtonBackground](bool hovered) {
+    frenchButtonBackground->visible = hovered;
   });
 
-  reviseButton->setHoverCallback([reviseButtonBackground](bool hovered) {
-    reviseButtonBackground->visible = hovered;
+  mathButton->setHoverCallback([mathButtonBackground](bool hovered) {
+    mathButtonBackground->visible = hovered;
   });
 
-  continueButton->setHoverCallback([continueButtonBackground](bool hovered) {
-    continueButtonBackground->visible = hovered;
+  englishButton->setHoverCallback([englishButtonBackground](bool hovered) {
+    englishButtonBackground->visible = hovered;
   });
 
-  creditsButton->setHoverCallback([creditsButtonBackground](bool hovered) {
-    creditsButtonBackground->visible = hovered;
+  geographyButton->setHoverCallback([geographyButtonBackground](bool hovered) {
+    geographyButtonBackground->visible = hovered;
   });
 
-  quitButton->setHoverCallback([quitButtonBackground](bool hovered) {
-    quitButtonBackground->visible = hovered;
+  backButton->setHoverCallback([backButtonBackground](bool hovered) {
+    backButtonBackground->visible = hovered;
   });
 }
 

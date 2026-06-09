@@ -142,7 +142,7 @@ void FrenchRandom::evaluatePoints(std::map<std::string, std::vector<std::string>
 
       effectElement->anchorPoint = glm::vec2(0.0f, 1.0f);
       effectElement->visible = false;
-
+      
       if (std::find(infos->types[answer].begin(), infos->types[answer].end(), str) != infos->types[answer].end()) {
         effectElement->text = "+5";
         effect->points = 5;
@@ -154,6 +154,7 @@ void FrenchRandom::evaluatePoints(std::map<std::string, std::vector<std::string>
 
       effectElement->registerObject();
 
+      effect->correspondingButton = correspondingButton;
       effect->element = effectElement;
       FightPhase::effects[effect] = timeToWait;
       timeToWait += timeToAdd;
