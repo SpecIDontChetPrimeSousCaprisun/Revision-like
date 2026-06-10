@@ -38,7 +38,7 @@ std::vector<UpgradeInfo*> FrenchRandom::getRandomUpgrades() {
   std::vector<UpgradeInfo*> currentPool = upgradePool;
   std::vector<UpgradeInfo*> result;
 
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 5; i++) {
     if (currentPool.empty()) break;
 
     std::uniform_int_distribution<int> dist(0, currentPool.size() - 1);
@@ -142,7 +142,7 @@ void FrenchRandom::evaluatePoints(std::map<std::string, std::vector<std::string>
 
       effectElement->anchorPoint = glm::vec2(0.0f, 1.0f);
       effectElement->visible = false;
-      
+
       if (std::find(infos->types[answer].begin(), infos->types[answer].end(), str) != infos->types[answer].end()) {
         effectElement->text = "+5";
         effect->points = 5;
@@ -158,7 +158,7 @@ void FrenchRandom::evaluatePoints(std::map<std::string, std::vector<std::string>
       effect->element = effectElement;
       FightPhase::effects[effect] = timeToWait;
       timeToWait += timeToAdd;
-      timeToAdd -= 0.01f;
+      timeToAdd -= 0.1f;
     }
   }
 }

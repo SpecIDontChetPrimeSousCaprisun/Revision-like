@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "professors/Professor.h"
 
 class Gameloop {
 public:
@@ -16,4 +17,5 @@ public:
   static std::string currentSubject;
   static std::map<int, std::string> stages;
   static std::vector<std::string> upgrades;
+  static std::vector<Professor*> professors;
 };

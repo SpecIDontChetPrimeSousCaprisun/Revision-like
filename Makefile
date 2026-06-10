@@ -65,7 +65,9 @@ COMMON_SRC = \
 	src/ScrollingElement.cpp \
 	src/ShopPhase.cpp \
 	src/UIParticle.cpp \
-	src/MainMenu.cpp
+	src/MainMenu.cpp \
+	src/professors/Professor.cpp \
+	src/professors/Chloe.cpp
 
 SRC = $(COMMON_SRC) src/glad.c
 

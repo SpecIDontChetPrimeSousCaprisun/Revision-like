@@ -10,5 +10,13 @@
   "Natures": {
     "price": 10,
     "texPath": "textures/Wallpaper.jpeg"
+  },
+  "Temps": {
+    "price": 15,
+    "texPath": "textures/Wallpaper.jpeg"
+  },
+  "Prepositions": {
+    "price": 10,
+    "texPath": "textures/Wallpaper.jpeg"
   }
 }

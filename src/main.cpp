@@ -6,6 +6,7 @@
 #include "Textbox.h"
 #include "Button.h"
 #include "Gameloop.h"
+#include "professors/Professor.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,12 +15,13 @@
 int main() {
   Sound::init();
 
-  if (Window::init() == -1) return -1;      
+  if (Window::init() == -1) return -1;
  
   Object::initShader();
   TextElement::initShader();
   Textbox::init();
   Gameloop::init();
+  Professor::init();
 
   Window::mainLoop();
   Sound::unInit();

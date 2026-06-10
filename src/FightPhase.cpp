@@ -3,6 +3,8 @@
 #include "FrenchRandom.h"
 #include "Gameloop.h"
 #include "Window.h"
+#include "professors/Professor.h"
+
 #include <sstream>
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -81,6 +83,8 @@ void FightPhase::init() {
     if (Gameloop::currentSubject == "French") {
       FrenchRandom::evaluatePoints(answerNames, expression);
     }
+
+    Professor::updateAll();
   });
   endTurnButton->anchorPoint = glm::vec2(0.5f, 0.0f);
   endTurnButton->cornerRadius = 0.025f;
@@ -268,7 +272,7 @@ void FightPhase::update() {
   std::ostringstream moneyss;
   pointss << std::fixed << std::setprecision(1) << points;
   maxPointss << std::fixed << std::setprecision(1) << maxPoints;
-  moneyss << std::fixed << std::setprecision(1) << std::max(0.0f, points - (maxPoints / 2));
+  moneyss << std::fixed << std::setprecision(1) << std::max(0.0f, (points - (maxPoints / 2)) * 2);
 
   scoreLabel->text = pointss.str() + "/" + maxPointss.str();
   moneyGainLabel->text = moneyss.str() + "$";
@@ -352,7 +356,7 @@ void FightPhase::update() {
     endScoreEffect->element = endScore;
 
     endMoneyEffect->points = 0;
-    endMoneyEffect->count = std::max(points - (maxPoints / 2), 0.0f);
+    endMoneyEffect->count = std::max((points - (maxPoints / 2)) * 2, 0.0f);
     endMoneyEffect->afterCountText = "$";
     endMoneyEffect->countUp = true;
     endMoneyEffect->fadeOut = false; 
@@ -373,7 +377,8 @@ void FightPhase::update() {
 
 void FightPhase::end() {
   Gameloop::completedStage = true;
-  Gameloop::money = std::max(Gameloop::money + (points - (maxPoints / 2)), Gameloop::money);
+  Gameloop::money = std::max(Gameloop::money + ((points - (maxPoints / 2)) * 2), Gameloop::money);
+  maxPoints *= 2;
   points = 0.0f;
   UI->changeVisibility(false);
   endUI->changeVisibility(false);

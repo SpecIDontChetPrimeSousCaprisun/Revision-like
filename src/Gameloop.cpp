@@ -9,6 +9,7 @@ float Gameloop::money = 0.0f;
 std::string Gameloop::currentSubject = "";
 std::map<int, std::string> Gameloop::stages;
 std::vector<std::string> Gameloop::upgrades;
+std::vector<Professor*> Gameloop::professors;
 
 void Gameloop::init() {
   stages[1] = "Fight";
