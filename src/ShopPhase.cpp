@@ -15,12 +15,12 @@ std::vector<Container*> ShopPhase::upgradeButtons;
 void ShopPhase::init() {
   std::vector<Object*> UIElements;
 
-  UIElement* background = new UIElement(glm::vec2(0.5f, 0.5f), glm::vec2(0.75f, 0.9f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 2);
-  TextElement* title = new TextElement(glm::vec2(0.5f, 0.05f), glm::vec2(0.75f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "SHOP", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  UIElement* expressionsContainer = new UIElement(glm::vec2(0.5f, 0.375f), glm::vec2(0.7f, 0.15f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 3);
-  UIElement* professorsContainer = new UIElement(glm::vec2(0.5f, 0.15f), glm::vec2(0.7f, 0.2f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 3);
+  UIElement* background = new UIElement(glm::vec2(0.5f, 0.5f), glm::vec2(0.4f, 0.9f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 2);
+  TextElement* title = new TextElement(glm::vec2(0.5f, 0.05f), glm::vec2(0.35f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "SHOP", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  UIElement* expressionsContainer = new UIElement(glm::vec2(0.5f, 0.375f), glm::vec2(0.35f, 0.15f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 3);
+  UIElement* professorsContainer = new UIElement(glm::vec2(0.5f, 0.15f), glm::vec2(0.35f, 0.2f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 3);
   moneyText = new TextElement(glm::vec2(0.01f, 1.0f), glm::vec2(1.0f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 2, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
-  Button* endButton = new Button(glm::vec2(0.5f, 0.94f), glm::vec2(0.7f, 0.05f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 2, "Continue", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  Button* endButton = new Button(glm::vec2(0.5f, 0.94f), glm::vec2(0.35f, 0.05f), 0.0f, glm::vec3(0.512f, 0.0f, 0.512f), 2, "Continue", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
 
   background->anchorPoint = glm::vec2(0.5f, 0.5f);
 
@@ -75,7 +75,7 @@ ShopUpgrade* ShopPhase::addNewUpgrade(
   TextElement* upgradeTitle = new TextElement(position, glm::vec2(size.x, 0.025f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 5, upgrade, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
   TextElement* priceElement = new TextElement(position + glm::vec2(0.0f, size.y), glm::vec2(size.x, 0.025f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 5, pricess.str() + "$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
   TextElement* boughtElement = new TextElement(position + glm::vec2(0.0f, size.y / 2), glm::vec2(size.x, 0.025f), 0.25f, glm::vec3(0.0f, 0.0f, 0.0f), 5, "SOLD", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
-  TextElement* descElement = new TextElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0125f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 6, desc, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  TextElement* descElement = new TextElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.025f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 6, desc, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
 
   descElement->textCentered = false;
   descElement->recalculateTextWidth();
@@ -126,8 +126,8 @@ void ShopPhase::start() {
   std::vector<UpgradeInfo*> upgrades = FrenchRandom::getRandomUpgrades();
 
   for (UpgradeInfo* upgrade : upgrades) {
-    glm::vec2 position(0.15f, 0.3875f);
-    glm::vec2 size(0.7f, 0.125f);
+    glm::vec2 position(0.325f, 0.3875f);
+    glm::vec2 size(0.35f, 0.125f);
 
     ShopUpgrade* shopUpgrade = addNewUpgrade(
       i, 
@@ -156,8 +156,8 @@ void ShopPhase::start() {
   std::vector<Professor*> professors = Professor::getRandomProfessors();
 
   for (Professor* professor : professors) {
-    glm::vec2 position(0.15f, 0.1625f);
-    glm::vec2 size(0.7f, 0.175f);
+    glm::vec2 position(0.325f, 0.1625f);
+    glm::vec2 size(0.35f, 0.175f);
 
     ShopUpgrade* shopUpgrade = addNewUpgrade(
       i, 
