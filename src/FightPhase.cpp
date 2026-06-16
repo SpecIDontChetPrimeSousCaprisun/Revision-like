@@ -102,10 +102,10 @@ void FightPhase::init() {
   std::vector<Object*> endUIElements;
 
   UIElement* endBackground = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.25f, glm::vec3(0.0f, 0.0f, 0.0f), 20);
-  UIElement* endContainer = new UIElement(glm::vec2(0.5f, 0.5f), glm::vec2(0.75f, 0.9f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 21);
+  UIElement* endContainer = new UIElement(glm::vec2(0.5f, 0.5f), glm::vec2(0.4f, 0.9f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 21);
   TextElement* title = new TextElement(glm::vec2(0.5f, 0.05f), glm::vec2(0.75f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 22, "Fight breakdown", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  endScroll = new ScrollingElement(glm::vec2(0.5f, 0.15f), glm::vec2(0.7f, 0.65f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 22);
-  endButton = new Button(glm::vec2(0.5f, 0.85f), glm::vec2(0.7f, 0.075f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 22, "Continue", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  endScroll = new ScrollingElement(glm::vec2(0.5f, 0.15f), glm::vec2(0.35f, 0.65f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 22);
+  endButton = new Button(glm::vec2(0.5f, 0.85f), glm::vec2(0.35f, 0.075f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 22, "Continue", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
 
   endContainer->anchorPoint = glm::vec2(0.5f, 0.5f);
   endContainer->cornerRadius = 0.025f;
