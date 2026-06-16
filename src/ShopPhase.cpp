@@ -51,7 +51,16 @@ void ShopPhase::init() {
   UI->registerObjects();
 }
 
-ShopUpgrade* ShopPhase::addNewUpgrade(int i, float padding, size_t numberOfUpgrades, glm::vec2 position, glm::vec2 size, std::string texPath, std::string upgrade, float price) {
+ShopUpgrade* ShopPhase::addNewUpgrade(
+  int i, 
+  float padding, 
+  size_t numberOfUpgrades, 
+  glm::vec2 position,
+  glm::vec2 size, std::string texPath, 
+  std::string upgrade, 
+  float price,
+  std::string desc
+) {
   std::ostringstream pricess;
   pricess << std::fixed << std::setprecision(1) << price;
 
@@ -66,6 +75,13 @@ ShopUpgrade* ShopPhase::addNewUpgrade(int i, float padding, size_t numberOfUpgra
   TextElement* upgradeTitle = new TextElement(position, glm::vec2(size.x, 0.025f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 5, upgrade, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
   TextElement* priceElement = new TextElement(position + glm::vec2(0.0f, size.y), glm::vec2(size.x, 0.025f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 5, pricess.str() + "$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
   TextElement* boughtElement = new TextElement(position + glm::vec2(0.0f, size.y / 2), glm::vec2(size.x, 0.025f), 0.25f, glm::vec3(0.0f, 0.0f, 0.0f), 5, "SOLD", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
+  TextElement* descElement = new TextElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0125f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 6, desc, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+
+  descElement->textCentered = false;
+  descElement->recalculateTextWidth();
+  descElement->size.x = descElement->textWidth / Window::fbWidth;
+  descElement->visible = false;
+  descElement->registerObject();
 
   upgradeTitle->recalculateTextWidth();
 
@@ -76,6 +92,9 @@ ShopUpgrade* ShopPhase::addNewUpgrade(int i, float padding, size_t numberOfUpgra
   }
 
   upgradeButton->cornerRadius = 0.025f;
+  upgradeButton->setHoverCallback([descElement](bool hovered) {
+    descElement->visible = hovered;
+  });
 
   priceElement->anchorPoint = glm::vec2(0.0f, 1.0f);
 
@@ -110,7 +129,16 @@ void ShopPhase::start() {
     glm::vec2 position(0.15f, 0.3875f);
     glm::vec2 size(0.7f, 0.125f);
 
-    ShopUpgrade* shopUpgrade = addNewUpgrade(i, padding, upgrades.size(), position, size, upgrade->texPath, upgrade->upgrade, upgrade->price);
+    ShopUpgrade* shopUpgrade = addNewUpgrade(
+      i, 
+      padding, 
+      upgrades.size(), 
+      position, size, 
+      upgrade->texPath, 
+      upgrade->upgrade, 
+      upgrade->price,
+      ""
+    );
 
     shopUpgrade->upgradeButton->setCallback([upgrade, shopUpgrade]() {
       if (upgrade->price > Gameloop::money) return;
@@ -131,7 +159,17 @@ void ShopPhase::start() {
     glm::vec2 position(0.15f, 0.1625f);
     glm::vec2 size(0.7f, 0.175f);
 
-    ShopUpgrade* shopUpgrade = addNewUpgrade(i, padding, professors.size(), position, size, professor->texPath, professor->name, professor->price);
+    ShopUpgrade* shopUpgrade = addNewUpgrade(
+      i, 
+      padding, 
+      professors.size(), 
+      position, 
+      size, 
+      professor->texPath, 
+      professor->name, 
+      professor->price,
+      professor->description
+    );
 
     shopUpgrade->upgradeButton->setCallback([professor, shopUpgrade]() {
       if (professor->price > Gameloop::money) return;

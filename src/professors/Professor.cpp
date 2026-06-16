@@ -17,8 +17,8 @@ void Professor::updateAll() {
   }
 }
 
-Professor::Professor(float price, std::string subject, std::string name, std::string texPath) 
-  : price(price), subject(subject), name(name), texPath(texPath) {
+Professor::Professor(float price, std::string subject, std::string name, std::string texPath, std::string description) 
+  : price(price), subject(subject), name(name), texPath(texPath), description(description) {
   professors.push_back(this);
 }
 

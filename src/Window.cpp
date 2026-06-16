@@ -36,7 +36,7 @@ int Window::init() {
   glfwWindowHint(GLFW_DEPTH_BITS, 24);
 
   /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(fbWidth, fbHeight, "Revise like", NULL, NULL);
+  window = glfwCreateWindow(fbWidth, fbHeight, "Revision gaem", NULL, NULL);
 
   if (!window)
   {
@@ -47,6 +47,8 @@ int Window::init() {
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
   glfwSwapInterval(0); 
+  glfwSetWindowMonitor(window, 1 ? glfwGetPrimaryMonitor() : NULL, 0, 0, fbWidth, fbHeight, GLFW_DONT_CARE);
+
 
   #ifndef __EMSCRIPTEN__
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

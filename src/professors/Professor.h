@@ -15,7 +15,7 @@ public:
   static std::vector<Professor*> professors; 
 
   float price;
-  std::string subject, name, texPath;
+  std::string subject, name, texPath, description;
 protected:
   using Factory = std::function<Professor*()>;
 
@@ -24,7 +24,7 @@ protected:
       return registry;
   }
 
-  Professor(float price, std::string subject, std::string name, std::string texPath);
+  Professor(float price, std::string subject, std::string name, std::string texPath, std::string description);
 
   virtual void intervene();
 };

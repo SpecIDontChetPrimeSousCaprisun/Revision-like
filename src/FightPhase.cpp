@@ -38,18 +38,18 @@ void FightPhase::init() {
 
   std::vector<Object*> UIElements;
 
-  UIElement* sidePannel = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.25f, 1.0f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2);
-  endTurnButton = new Button(glm::vec2(0.125f, 0.88f), glm::vec2(0.225f, 0.075f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 3, "End turn", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  scoreLabel = new TextElement(glm::vec2(0.0f, 0.01f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0/20", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  moneyGainLabel = new TextElement(glm::vec2(0.0f, 0.06f), glm::vec2(0.25f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
-  searchBox = new Textbox(glm::vec2(0.5f, 0.25f), glm::vec2(0.75f, 0.05f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  optionsScroll = new ScrollingElement(glm::vec2(0.5f, 0.3f), glm::vec2(0.75f, 0.2f), 1.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10);
-  searchScrollBackgound = new UIElement(glm::vec2(0.5f, 0.25f), glm::vec2(0.75f, 0.25f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 9);
+  UIElement* sidePannel = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.15f, 1.0f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2);
+  endTurnButton = new Button(glm::vec2(0.075f, 0.88f), glm::vec2(0.125f, 0.075f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 3, "End turn", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  scoreLabel = new TextElement(glm::vec2(0.0f, 0.01f), glm::vec2(0.15f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0/20", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  moneyGainLabel = new TextElement(glm::vec2(0.0f, 0.06f), glm::vec2(0.15f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
+  searchBox = new Textbox(glm::vec2(0.5f, 0.25f), glm::vec2(0.45f, 0.065f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+  optionsScroll = new ScrollingElement(glm::vec2(0.5f, 0.31f), glm::vec2(0.45f, 0.2f), 1.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10);
+  searchScrollBackgound = new UIElement(glm::vec2(0.5f, 0.25f), glm::vec2(0.45f, 0.26f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 9);
 
   searchBox->anchorPoint = glm::vec2(0.5f, 0.0f);
   searchBox->visible = false;
   searchBox->textCentered = false;
-  searchBox->placeholder = "Search...";
+  searchBox->placeholder = " Search...";
   searchBox->cornerRadius = 0.025f;
   searchBox->registerObject();
 
@@ -228,7 +228,7 @@ void FightPhase::start() {
     std::string word;
 
     while (stream >> word)  {
-      Button* expressionButton = new Button(glm::vec2(0.265f + (xOffset / Window::fbWidth), 0.375f), glm::vec2(0.25f, 0.035f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, word + " ", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
+      Button* expressionButton = new Button(glm::vec2(0.165f + (xOffset / Window::fbWidth), 0.375f), glm::vec2(0.25f, 0.035f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, word + " ", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
  
       expressionButton->setCallback([word, expressionButton]() {
         searchBox->visible = true;
