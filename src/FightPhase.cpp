@@ -14,6 +14,7 @@
 
 float FightPhase::points = 0.0f;
 float FightPhase::maxPoints = 20.0f;
+float FightPhase::mult = 1.0f;
 std::unordered_map<Effect*, float> FightPhase::effects;
 std::vector<Button*> FightPhase::expressionButtons;
 std::string FightPhase::expression;
@@ -25,6 +26,7 @@ Container* FightPhase::UI;
 Container* FightPhase::endUI;
 Container* FightPhase::lostUI;
 TextElement* FightPhase::scoreLabel;
+TextElement* FightPhase::multLabel;
 TextElement* FightPhase::moneyGainLabel;
 ScrollingElement* FightPhase::endScroll;
 Button* FightPhase::endButton;
@@ -41,7 +43,8 @@ void FightPhase::init() {
   UIElement* sidePannel = new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.15f, 1.0f), 0.0f, glm::vec3(0.3f, 0.0f, 0.3f), 2);
   endTurnButton = new Button(glm::vec2(0.075f, 0.88f), glm::vec2(0.125f, 0.075f), 0.0f, glm::vec3(0.512f, 0.0f, 0.750f), 3, "End turn", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
   scoreLabel = new TextElement(glm::vec2(0.0f, 0.01f), glm::vec2(0.15f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0/20", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
-  moneyGainLabel = new TextElement(glm::vec2(0.0f, 0.06f), glm::vec2(0.15f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
+  multLabel = new TextElement(glm::vec2(0.0f, 0.06f), glm::vec2(0.15f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "X 1", "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 0.0f, 0.0f));
+  moneyGainLabel = new TextElement(glm::vec2(0.0f, 0.11f), glm::vec2(0.15f, 0.1f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 3, "0$", "fonts/Kenney Future Narrow.ttf", glm::vec3(0.0f, 1.0f, 0.0f));
   searchBox = new Textbox(glm::vec2(0.5f, 0.25f), glm::vec2(0.45f, 0.065f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10, "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));
   optionsScroll = new ScrollingElement(glm::vec2(0.5f, 0.31f), glm::vec2(0.45f, 0.2f), 1.0f, glm::vec3(0.4f, 0.0f, 0.4f), 10);
   searchScrollBackgound = new UIElement(glm::vec2(0.5f, 0.25f), glm::vec2(0.45f, 0.26f), 0.0f, glm::vec3(0.4f, 0.0f, 0.4f), 9);
@@ -84,13 +87,14 @@ void FightPhase::init() {
       FrenchRandom::evaluatePoints(answerNames, expression);
     }
 
-    Professor::updateAll();
+    Professor::updateAll(answerNames, expression);
   });
   endTurnButton->anchorPoint = glm::vec2(0.5f, 0.0f);
   endTurnButton->cornerRadius = 0.025f;
 
   UIElements.push_back(sidePannel);
   UIElements.push_back(scoreLabel);
+  UIElements.push_back(multLabel);
   UIElements.push_back(moneyGainLabel);
   UIElements.push_back(endTurnButton);
 
@@ -156,6 +160,7 @@ void FightPhase::init() {
 void FightPhase::start() {
   UI->changeVisibility(true);
   endUI->changeVisibility(false);
+  mult = 1.0f;
   optionButtons.clear();
   expressionButtons.clear();
   answers.clear();
@@ -269,12 +274,15 @@ void FightPhase::update() {
 
   std::ostringstream pointss;
   std::ostringstream maxPointss;
+  std::ostringstream multss;
   std::ostringstream moneyss;
   pointss << std::fixed << std::setprecision(1) << points;
   maxPointss << std::fixed << std::setprecision(1) << maxPoints;
+  multss << std::fixed << std::setprecision(1) << mult;
   moneyss << std::fixed << std::setprecision(1) << std::max(0.0f, (points - (maxPoints / 2)) * 2);
 
   scoreLabel->text = pointss.str() + "/" + maxPointss.str();
+  multLabel->text = "X " + multss.str();
   moneyGainLabel->text = moneyss.str() + "$";
 
   if (!searchBox->text.empty()) {
@@ -293,7 +301,7 @@ void FightPhase::update() {
     time -= Window::deltaTime;
     if (time <= 0.0f) {
       effect->element->visible = true;
-      
+
       if (effect->fadeOut) {
         effect->element->textTransparency = time / -0.5f;
         effect->correspondingButton->rotation = 15 - (15 * (time / -0.5));
@@ -320,6 +328,7 @@ void FightPhase::update() {
       if (!effect->appliedPoints) {
         effect->appliedPoints = true;
         points = std::min(points + effect->points, maxPoints);
+        mult += effect->mult;
       }
     }
   }
@@ -328,7 +337,14 @@ void FightPhase::update() {
     effects.erase(effect);
   }
 
-  if (effects.size() == 0 && !endTurnButton->visible && Gameloop::stages[Gameloop::currentStage] == "Fight" && !endScroll->visible) {
+  bool switchPhases = effects.size() == 0 && !endTurnButton->visible && Gameloop::stages[Gameloop::currentStage] == "Fight" && !endScroll->visible;
+
+  if (switchPhases) {
+    points *= mult;
+    pointss = std::ostringstream();
+    pointss << std::fixed << std::setprecision(1) << points;
+    moneyss = std::ostringstream();
+    moneyss << std::fixed << std::setprecision(1) << std::max(0.0f, (points - (maxPoints / 2)) * 2);
     endUI->changeVisibility(true);
 
     TextElement* endScore = new TextElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.035f), 1.0f, glm::vec3(0.0f, 0.0f, 0.0f), 23, "0/" + maxPointss.str(), "fonts/Kenney Future Narrow.ttf", glm::vec3(1.0f, 1.0f, 1.0f));

@@ -14,7 +14,7 @@ public:
   TextElement* element;
   Button* correspondingButton;
   std::string afterCountText;
-  float points, count;
+  float points, count, mult;
   bool appliedPoints = false;
   bool fadeOut = true;
   bool countUp = false;
@@ -28,7 +28,7 @@ public:
   static void end();
   static void update();
 
-  static float points, maxPoints;
+  static float points, maxPoints, mult;
   static std::unordered_map<Effect*, float> effects;
   static std::vector<Button*> expressionButtons;
 private: 
@@ -42,6 +42,7 @@ private:
   static Container* endUI;
   static Container* lostUI;
   static TextElement* scoreLabel;
+  static TextElement* multLabel;
   static TextElement* moneyGainLabel;
   static ScrollingElement* endScroll;
   static Button* endButton;

@@ -11,9 +11,9 @@ void Professor::init() {
   }
 }
 
-void Professor::updateAll() {
+void Professor::updateAll(std::map<std::string, std::vector<std::string>> answers, std::string sentence) {
   for (Professor* professor : Gameloop::professors) {
-    professor->intervene();
+    professor->intervene(answers, sentence);
   }
 }
 
@@ -54,6 +54,6 @@ std::vector<Professor*> Professor::getRandomProfessors() {
   return result;
 }
 
-void Professor::intervene() {}
+void Professor::intervene(std::map<std::string, std::vector<std::string>> answers, std::string sentence) {}
 
 

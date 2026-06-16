@@ -11,6 +11,7 @@ std::mt19937 FrenchRandom::rng(std::random_device{}());
 std::vector<UpgradeInfo*> FrenchRandom::upgradePool;
 std::vector<std::string> FrenchRandom::sentencesPool;
 std::map<std::string, SentenceInfo*> FrenchRandom::sentencesInfo;
+float FrenchRandom::timeToWait, FrenchRandom::timeToAdd;
 
 std::string FrenchRandom::getRandomSentence() {
   createPool();
@@ -117,8 +118,8 @@ void FrenchRandom::generateSentences() {
 
 void FrenchRandom::evaluatePoints(std::map<std::string, std::vector<std::string>> answers, std::string sentence) {
   SentenceInfo* infos = sentencesInfo[sentence];
-  float timeToWait = 0.0f;
-  float timeToAdd = 1.0f;
+  timeToWait = 0.0f;
+  timeToAdd = 1.0f;
 
   for (auto& [word, options] : answers) {
     for (std::string answer : options) {

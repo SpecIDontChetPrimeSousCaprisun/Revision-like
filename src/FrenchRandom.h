@@ -19,6 +19,12 @@ public:
 
 class FrenchRandom {
 public:
+  static std::mt19937 rng;
+  static std::vector<UpgradeInfo*> upgradePool;
+  static std::vector<std::string> sentencesPool;
+  static std::map<std::string, SentenceInfo*> sentencesInfo;
+  static float timeToWait, timeToAdd;
+
   static void init();
   static void evaluatePoints(std::map<std::string, std::vector<std::string>> answers, std::string sentence);
   static std::string getRandomSentence();
@@ -26,10 +32,5 @@ public:
 private:
   static void generateSentences();
   static void createPool();
-  static void createUpgradePool();
-
-  static std::mt19937 rng;
-  static std::vector<UpgradeInfo*> upgradePool;
-  static std::vector<std::string> sentencesPool;
-  static std::map<std::string, SentenceInfo*> sentencesInfo;
+  static void createUpgradePool(); 
 };
