@@ -33,5 +33,35 @@
     "color": [0.75, 0.25, 0],
     "abreviation": "CCMo",
     "requirements": ["Complements Circonstantiels (CC)"]
+  },
+  "Pronom": {
+    "color": [0, 0.5, 1],
+    "abreviation": "P",
+    "requirements": ["Natures"]
+  },
+  "Nom": {
+    "color": [0, 1, 0],
+    "abreviation": "N",
+    "requirements": ["Natures"]
+  },
+  "Determinant": {
+    "color": [1, 1, 1],
+    "abreviation": "D",
+    "requirements": ["Natures"]
+  },
+  "Indicatif Present": {
+    "color": [0.25, 0.25, 0.25],
+    "abreviation": "IP",
+    "requirements": ["Temps de l'indicatif"]
+  },
+  "Imparfait": {
+    "color": [0.25, 0.25, 0.25],
+    "abreviation": "Imparfait",
+    "requirements": ["Temps de l'indicatif"]
+  },
+  "Futur simple": {
+    "color": [0.25, 0.25, 0.25],
+    "abreviation": "FS",
+    "requirements": ["Temps de l'indicatif"]
   }
 }

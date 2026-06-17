@@ -5,6 +5,7 @@
 #include "Container.h"
 #include "Gameloop.h"
 #include "MainMenu.h"
+#include "ScrollingElement.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -27,8 +28,8 @@ bool resizing = false;
 int Window::init() {
   glfwSetErrorCallback([](int error, const char* description) {
       std::cout << "GLFW ERROR: " << description << "\n";
-  }); 
-
+  });
+  
   /* Initialize the library */
   if (!glfwInit())
       return -1; 
@@ -48,7 +49,7 @@ int Window::init() {
   glfwMakeContextCurrent(window);
   glfwSwapInterval(0); 
   glfwSetWindowMonitor(window, 1 ? glfwGetPrimaryMonitor() : NULL, 0, 0, fbWidth, fbHeight, GLFW_DONT_CARE);
-
+  glfwSetScrollCallback(window, ScrollingElement::scrollCallback);
 
   #ifndef __EMSCRIPTEN__
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

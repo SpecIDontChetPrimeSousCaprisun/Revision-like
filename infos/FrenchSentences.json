@@ -7,8 +7,14 @@
       "Sujet": [
         "chevres"
       ],
+      "Nom": [
+        "chevres"
+      ],
       "COD": [
         "l'herbe."
+      ],
+      "Indicatif Present": [
+        "mangent"
       ]
     },
     "requirements": []
@@ -23,6 +29,12 @@
       ],
       "CCLieu": [
         "restaurant"
+      ],
+      "Pronom": [
+        "Je"
+      ],
+      "Indicatif Present": [
+        "mange"
       ]
     },
     "requirements": [
