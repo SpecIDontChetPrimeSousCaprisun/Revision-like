@@ -12,13 +12,31 @@ void Professor::init() {
 }
 
 void Professor::updateAll(std::map<std::string, std::vector<std::string>> answers, std::string sentence) {
+  float i = 0;
+  float padding = 0.01f;
+  glm::vec2 pos(0.5f, 0.025f);
+  pos.x -= (0.05f + padding) * (Gameloop::professors.size() - 1);
+
   for (Professor* professor : Gameloop::professors) {
+    professor->element->visible = true;
+    professor->element->position = glm::vec2(pos.x + ((professor->element->size.x + padding) * i), pos.y);
     professor->intervene(answers, sentence);
+    i++;
+  }
+}
+
+void Professor::hideAll() {
+  for (Professor* professor : Gameloop::professors) {
+    professor->element->visible = false;
   }
 }
 
 Professor::Professor(float price, std::string subject, std::string name, std::string texPath, std::string description) 
-  : price(price), subject(subject), name(name), texPath(texPath), description(description) {
+  : price(price), subject(subject), name(name), texPath(texPath), description(description), 
+    element(new UIElement(glm::vec2(0.0f, 0.0f), glm::vec2(0.1f, 0.275f), 0.0f, texPath, 30)) {
+  element->anchorPoint = glm::vec2(0.5f, 0.0f);
+  element->visible = false;
+  element->registerObject();
   professors.push_back(this);
 }
 

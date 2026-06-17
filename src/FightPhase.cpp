@@ -340,6 +340,7 @@ void FightPhase::update() {
   bool switchPhases = effects.size() == 0 && !endTurnButton->visible && Gameloop::stages[Gameloop::currentStage] == "Fight" && !endScroll->visible;
 
   if (switchPhases) {
+    Professor::hideAll();
     points *= mult;
     pointss = std::ostringstream();
     pointss << std::fixed << std::setprecision(1) << points;

@@ -6,17 +6,21 @@
 #include <functional>
 #include <map>
 
+#include "../UIElement.h"
+
 class Professor {
 public:
   static void init();
   static std::vector<Professor*> getRandomProfessors();
   static void updateAll(std::map<std::string, std::vector<std::string>> answers, std::string sentence);
+  static void hideAll();
 
   static std::mt19937 rng;
   static std::vector<Professor*> professors; 
 
   float price;
   std::string subject, name, texPath, description;
+  UIElement* element;
 protected:
   using Factory = std::function<Professor*()>;
 

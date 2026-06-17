@@ -4,6 +4,7 @@
 #include "UIElement.h"
 #include "Window.h"
 #include "professors/Professor.h"
+#include "professors/Chloe.h"
 #include <vector>
 #include <fstream>
 #include <iomanip>
