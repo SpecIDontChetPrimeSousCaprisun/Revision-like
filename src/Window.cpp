@@ -48,7 +48,6 @@ int Window::init() {
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
   glfwSwapInterval(0); 
-  glfwSetWindowMonitor(window, 1 ? glfwGetPrimaryMonitor() : NULL, 0, 0, fbWidth, fbHeight, GLFW_DONT_CARE);
   glfwSetScrollCallback(window, ScrollingElement::scrollCallback);
 
   #ifndef __EMSCRIPTEN__
